@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beatscript</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0d1117; color: #fff;
+           display: grid; place-items: center; height: 100vh; margin: 0; text-align: center; }
+    button { font-size: 1.2rem; padding: .8rem 1.6rem; border: 0; border-radius: 8px;
+             background: #4f8cff; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Beatscript</h1>
+    <p>Learn to code by making music and art.</p>
+    <button id="play">Play a beat</button>
+  </div>
+  <script>
+    document.getElementById('play').onclick = () => {
+      const ctx = new AudioContext();
+      [0, 0.3, 0.6, 0.9].forEach((t, i) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = [262, 330, 392, 523][i];
+        g.gain.setValueAtTime(0.3, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.25);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.3);
+      });
+    };
+  </script>
+</body>
+</html>
