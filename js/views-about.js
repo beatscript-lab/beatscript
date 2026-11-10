@@ -1,7 +1,7 @@
 import { h } from './dom.js';
 import { t } from './i18n.js';
 import { config } from './config.js';
-import { exportAll, importAll, resetAll } from './store.js';
+import { exportAll, importAll, resetAll, getPref, setPref } from './store.js';
 
 export function aboutView() {
   const status = h('p', { class: 'status', role: 'status', 'aria-live': 'polite' });
@@ -37,6 +37,9 @@ export function aboutView() {
     setTimeout(() => location.reload(), 900);
   }
 
+  const nameInput = h('input', { type: 'text', class: 'fillbox fillbox--wide', maxlength: '60', value: getPref('studentName', ''), 'aria-label': t('about.name.label'), autocomplete: 'off' });
+  nameInput.addEventListener('input', () => setPref('studentName', nameInput.value.slice(0, 60)));
+
   const block = (key, ...extra) => h('section', { class: 'about-block' }, h('h2', {}, t(`about.${key}.t`)), h('p', {}, t(`about.${key}.d`)), ...extra);
 
   return {
@@ -49,6 +52,7 @@ export function aboutView() {
         block('made'),
         block('open', h('p', {}, h('a', { class: 'btn', href: config.repoUrl }, t('about.open.link')))),
         block('feedback', h('p', {}, h('a', { class: 'btn btn--primary', href: config.feedbackUrl }, t('beta.feedback')))),
+        block('name', h('p', {}, nameInput)),
         block('progress',
           h('div', { class: 'row' },
             h('button', { type: 'button', class: 'btn btn--lg', onclick: download }, t('about.export')),

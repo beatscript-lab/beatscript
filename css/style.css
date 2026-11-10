@@ -276,3 +276,41 @@ a.lrow:hover { text-decoration: none; border-color: var(--blue); }
 .about-block .row { margin-top: 1rem; }
 .btn--danger { color: var(--bad); border-color: #E7B1AB; }
 .foot a { color: var(--muted); }
+
+/* teacher module */
+.fillbox--wide { max-width: 420px; }
+.field { display: flex; flex-direction: column; gap: .3rem; font-weight: 700; }
+.plain { margin: 0; padding-left: 1.2rem; line-height: 1.8; font-size: 1.1rem; }
+.cert-box { background: #fff; border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: .8rem; }
+.cert-box h2 { font-size: 1.3rem; margin: 0; }
+.table-scroll { overflow-x: auto; border: 2px solid var(--line); border-radius: 16px; background: var(--panel); }
+.teacher-table { border-collapse: collapse; min-width: 100%; font-size: .95rem; }
+.teacher-table th, .teacher-table td { padding: .45rem .55rem; border-bottom: 1px solid var(--line-soft); text-align: center; white-space: nowrap; }
+.teacher-table thead th { background: var(--tint); font-weight: 800; }
+.teacher-table .tt-group { border-left: 2px solid var(--line); }
+.teacher-table .tt-name { text-align: left; position: sticky; left: 0; background: var(--panel); border-right: 2px solid var(--line); }
+.teacher-table thead .tt-name { background: var(--tint); }
+.teacher-table .tt-cell.is-done { color: #1A7F37; font-weight: 800; background: #F0FAF2; }
+.teacher-table .tt-test.is-retry { color: #8A5A00; font-weight: 800; background: #FFF3C4; }
+.teacher-table .tt-foot th, .teacher-table .tt-foot td { background: var(--tint); font-weight: 700; }
+.teacher-table .tt-count { font-weight: 700; }
+
+/* printable certificates: the page itself is hidden when printing */
+.print-area { display: none; }
+.cert { box-sizing: border-box; width: 297mm; height: 210mm; padding: 14mm; display: flex; align-items: center; justify-content: center; background: #fff; color: #161B3D; font-family: var(--sans); }
+.cert__frame { box-sizing: border-box; width: 100%; height: 100%; border: 3mm double #2336D9; padding: 12mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6mm; text-align: center; }
+.cert__brand { display: flex; align-items: center; gap: 3mm; font-size: 22pt; font-weight: 800; }
+.cert h1 { font-size: 40pt; letter-spacing: .02em; margin: 0; }
+.cert__name { font-size: 38pt; font-weight: 800; margin: 2mm 0; border-bottom: .6mm solid #FFB800; padding: 0 12mm 2mm; word-break: break-word; }
+.cert__text { font-size: 17pt; line-height: 1.5; max-width: 200mm; margin: 0; }
+.cert__foot { display: flex; gap: 12mm; flex-wrap: wrap; justify-content: center; font-size: 13pt; margin-top: 6mm; }
+.cert__tag { font-size: 11pt; color: #4A5080; margin: 0; }
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body { background: #fff !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #app { display: none !important; }
+  .print-area { display: block; }
+  .cert { break-after: page; page-break-after: always; }
+  .cert:last-child { break-after: auto; page-break-after: auto; }
+}

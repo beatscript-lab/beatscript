@@ -23,6 +23,15 @@ fail and the solution must pass, in Romanian, English and Russian). The texts, e
 need review by native speakers. This note is also shown on the site's About page. If you apply for funding,
 read the funder's policy on AI-assisted work first and state this openly.
 
+## For teachers
+
+`#/teacher` lets a teacher see a whole class without accounts and without a server. Each student saves
+their progress to a file (About page, optionally typing their name first) and sends it to the teacher.
+The teacher loads all the files at once and gets a class table (lessons and tests per student, retries,
+counts per lesson), a CSV download, and printable A4 certificates (one per passed level). Student files are
+read only in the teacher's browser. Students can also print their own certificate after passing a level.
+Certificates carry no verification: anyone can type any name, so they suit classroom use, not official diplomas.
+
 ## What it does
 
 - **A guided course for complete beginners.** Each level has 5 lessons. Every lesson is

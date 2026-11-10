@@ -5,6 +5,8 @@ import { COURSES, courseById, findLesson, findLevel } from './courses/index.js';
 import { createCodeBox } from './codebox.js';
 import { lessonDone, markLessonDone, levelState, setLevelState } from './learn-store.js';
 import { notFoundView } from './views-domain.js';
+import { getPref, setPref } from './store.js';
+import { printCertificates } from './certificate.js';
 
 const LEVEL_SIZE = 5;
 const viewOf = (course) => (course.lang === 'js' ? 'text' : 'page');
@@ -396,8 +398,23 @@ export function testView(levelId) {
 
   function renderPassed() {
     const nextLevel = course.levels[index + 1];
+    const nameBox = h('input', { type: 'text', class: 'fillbox fillbox--wide', maxlength: '60', value: getPref('studentName', ''), 'aria-label': t('cert.nameLabel'), autocomplete: 'off' });
+    const certMsg = h('p', { class: 'status is-bad', role: 'status', 'aria-live': 'polite' });
+    const printMine = () => {
+      const name = nameBox.value.trim().slice(0, 60);
+      if (!name) { certMsg.textContent = t('cert.needName'); return; }
+      certMsg.textContent = '';
+      setPref('studentName', name);
+      printCertificates([{ name, course: pick(course.title).split(':')[0], level: pick(level.title) }], {});
+    };
     root.replaceChildren(h('section', { class: 'done-panel' },
       h('h1', {}, '★ ', t('ts.passTitle')), h('p', { class: 'lead' }, nextLevel ? t('ts.passD') : t('ts.passLast')),
+      h('div', { class: 'cert-box' },
+        h('h2', {}, t('cert.mine')),
+        h('div', { class: 'row' },
+          h('label', { class: 'field' }, h('span', {}, t('cert.nameLabel')), nameBox),
+          h('button', { type: 'button', class: 'btn btn--lg', onclick: printMine }, t('cert.print'))),
+        certMsg),
       h('div', { class: 'row' },
         nextLevel ? h('a', { class: 'btn btn--primary btn--lg', href: '#/lesson/' + nextLevel.lessons[0].id }, t('ts.nextLevel'), ' ›') : null,
         toCourse())));

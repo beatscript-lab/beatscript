@@ -8,6 +8,7 @@ import { workspaceView } from './views-workspace.js';
 import { refreshServer } from './remote.js';
 import { statusView } from './views-status.js';
 import { aboutView } from './views-about.js';
+import { teacherView } from './views-teacher.js';
 import { config } from './config.js';
 import { getPref, setPref } from './store.js';
 
@@ -26,6 +27,7 @@ function header() {
     h('nav', { class: 'nav', 'aria-label': 'Menu' },
       h('a', { href: '#/learn' }, t('nav.learn')),
       h('a', { href: '#/create' }, t('nav.create')),
+      h('a', { href: '#/teacher' }, t('nav.teachers')),
       h('a', { href: '#/about' }, t('nav.about'))),
     switcher);
 }
@@ -41,6 +43,7 @@ function render() {
   else if (parts[0] === 'create') view = createView();
   else if (parts[0] === 'status') view = statusView();
   else if (parts[0] === 'about') view = aboutView();
+  else if (parts[0] === 'teacher') view = teacherView();
   else if (parts[0] === 'd' && parts[1]) view = domainView(parts[1]);
   else if (parts[0] === 'p' && parts[1]) view = workspaceView(parts[1], query);
   else if (parts.length === 0) view = homeView();
