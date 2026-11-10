@@ -11,6 +11,13 @@ Live site: https://beatscript.labupgrade.ai
 
 ## What it does
 
+- **A guided course for complete beginners.** Each level has 5 lessons. Every lesson is
+  short interactive explanations (you change the code and see the result at once), then
+  a quick question, then a practice exercise that is checked automatically, with hints.
+  After 5 lessons there is a level test. If you miss something, you get an explanation
+  of the mistake, a new practice exercise with a *different* example, and a mini test on
+  just the missed ideas. Only then does the next level unlock.
+
 - **Topics, not just languages.** Six topics so far; adding one is a few lines of data.
 - **Six languages.** HTML, CSS and JavaScript run in the browser. PHP, Java and C++
   run on a separate, isolated server (see `runner/`).
@@ -36,10 +43,15 @@ works and shows that those languages are not available yet.
 
 ## Project structure
 
-    index.html               single page, hash routes (#/, #/d/<topic>, #/p/<project>)
+    index.html               single page, hash routes (#/learn, #/lesson/<id>, #/test/<level>, #/create, #/p/<project>)
     css/style.css            styles
     js/app.js                router and page shell
-    js/content.js            topics, languages and all projects (the lessons)
+    js/courses/              the course: kit.js (helpers), html.js, css.js, js.js, index.js
+    js/views-learn.js        course map, lesson player, practice, level test and retry loop
+    js/codebox.js            editor + Run + result, used by lessons, practice and tests
+    js/checks.js             automatic checking of practice exercises
+    js/learn-store.js        course progress (this browser only)
+    js/content.js            free-creation topics, languages and projects
     js/views-*.js            home, topic and workspace views
     js/runner.js             builds the sandboxed documents for HTML, CSS and JavaScript
     js/remote.js             client for the PHP/Java/C++ runner
@@ -61,6 +73,8 @@ works and shows that those languages are not available yet.
 
 ## Roadmap
 
+- Courses for PHP, Java and C++ (they need the runner), more levels for HTML, CSS and JavaScript
+- Russian translation of the lesson texts (the interface is already in Russian)
 - Syntax highlighting and error line numbers in the editor
 - More topics and projects, and a teacher mode (class links, no accounts)
 - Self-hosted fonts and a Romanian/Russian accessibility review

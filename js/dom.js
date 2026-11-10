@@ -74,3 +74,13 @@ export function starsRow(count, size = 28) {
   }
   return wrap;
 }
+
+// Text with `backticks` becomes <code> pieces. Never uses innerHTML.
+export function inline(parent, text) {
+  String(text ?? '').split('`').forEach((part, i) => {
+    if (!part) return;
+    if (i % 2) parent.append(h('code', {}, part));
+    else parent.append(part);
+  });
+  return parent;
+}

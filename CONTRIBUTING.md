@@ -2,7 +2,30 @@
 
 The easiest way to help is a new project (lesson) or a translation.
 
-## Add a project
+## Add or improve a course lesson
+
+Lessons live in `js/courses/` (one file per language). A level has 5 lessons; a lesson looks like:
+
+    {
+      id: 'html-1-1',
+      concept: { id: 'html-1-tags', name: L('...', '...') },   // the one idea this lesson teaches
+      title: L('...', '...'),
+      steps: [ read(...), read(...), tryIt(...), quiz(...) ],   // interactive explanations
+      practice: [ A, B ],      // two DIFFERENT exercises for the same idea (B is used after a failed test)
+      questions: [ QA, QB ],   // two DIFFERENT test questions for the same idea
+    }
+
+Rules that keep the course beginner-friendly:
+
+- One idea per lesson. Short sentences. Explain with a small example the learner can change.
+- Every lesson needs a `tryIt` step, a `quiz` step, 2 practice exercises and 2 test questions.
+- A practice exercise has `checks` that look at what the code really did (see `js/checks.js`)
+  and a `fail` message that tells the learner what to do, not just that they are wrong.
+- The starting code must not already pass; the `solution` must pass. The browser test in the
+  repository checks both for every exercise, in every language you write text for.
+- Text is `L('română', 'English')`; Russian falls back to English until it is translated.
+
+## Add a free-creation project
 
 Open `js/content.js` and add an object to `PROJECTS`:
 

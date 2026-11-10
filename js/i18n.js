@@ -1,9 +1,12 @@
 import ro from './locales/ro.js';
 import en from './locales/en.js';
 import ru from './locales/ru.js';
+import roLearn from './locales/ro-learn.js';
+import enLearn from './locales/en-learn.js';
+import ruLearn from './locales/ru-learn.js';
 import { getPref, setPref } from './store.js';
 
-const packs = { ro, en, ru };
+const packs = { ro: { ...ro, ...roLearn }, en: { ...en, ...enLearn }, ru: { ...ru, ...ruLearn } };
 export const UI_LANGS = ['ro', 'en', 'ru'];
 let current = 'ro';
 
@@ -33,4 +36,5 @@ export function t(key, vars) {
 }
 
 // Pick the current language from a {ro, en, ru} object.
-export const pick = (obj) => (obj ? obj[current] ?? obj.en ?? obj.ro ?? '' : '');
+// Strings pass through; {ro, en, ru} objects pick the current language, then English, then Romanian.
+export const pick = (obj) => (typeof obj === 'string' ? obj : obj ? obj[current] ?? obj.en ?? obj.ro ?? '' : '');

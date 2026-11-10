@@ -30,7 +30,7 @@ export function domainView(domainId) {
   });
 
   const el = h('div', { class: 'stack-lg' },
-    h('a', { class: 'back', href: '#/' }, '‹ ', t('domain.all')),
+    h('a', { class: 'back', href: '#/create' }, '‹ ', t('domain.all')),
     h('section', { class: 'domain-head', style: 'background:' + d.color },
       h('span', { class: 'domain-card__icon' }, icon(d.icon, 36)),
       h('div', {},

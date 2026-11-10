@@ -5,23 +5,27 @@
 // No eval / new Function is used anywhere: the learner's code is placed in its own inline
 // <script>, so this also works on servers whose Content-Security-Policy forbids 'unsafe-eval'.
 
+import { frameCheckScript } from './checks.js';
+
 const BASE_STYLE = 'html,body{margin:0}body{padding:16px;font:18px/1.5 Georgia,"Times New Roman",serif;color:#1b1d22;background:#fff}';
 
-function pageDoc(bodyHtml) {
+function pageDoc(bodyHtml, checkScript) {
   return '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-    + '<style>' + BASE_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+    + '<style>' + BASE_STYLE + '</style></head><body>' + bodyHtml + (checkScript || '') + '</body></html>';
 }
 
-export function buildDoc({ lang, code, view, scaffold }) {
-  if (lang === 'html') return pageDoc(String(code));
+// checks: optional list of frame-side checks (see checks.js, frameList) evaluated after the code ran.
+export function buildDoc({ lang, code, view, scaffold, checks }) {
+  const checkScript = frameCheckScript(checks);
+  if (lang === 'html') return pageDoc(String(code), checkScript);
   if (lang === 'css') {
     const css = String(code).replace(/<\/style/gi, '<\\/style');
-    return pageDoc('<style>' + css + '</style>' + (scaffold || ''));
+    return pageDoc('<style>' + css + '</style>' + (scaffold || ''), checkScript);
   }
-  return jsDoc(String(code), view === 'text' ? 'text' : 'canvas');
+  return jsDoc(String(code), view === 'text' ? 'text' : 'canvas', checkScript);
 }
 
-function jsDoc(source, view) {
+function jsDoc(source, view, checkScript) {
   // Keep the learner's code from closing the script tag or opening an HTML comment.
   const safe = source.replace(/<\/(script)/gi, '<\\/$1').replace(/<!--/g, '<\\!--');
   return `<!DOCTYPE html>
@@ -73,6 +77,7 @@ function jsDoc(source, view) {
     var f = typeof pitch === 'string' ? freq(pitch) : Number(pitch);
     if (!isFinite(f) || f <= 0) throw new Error('note() needs a note name like "C4" or a number like 440');
     var ctx = getAudio();
+    window.__beat.noteCount += 1;
     var start = ctx.currentTime + (Number(when) || 0);
     var len = Number(length) > 0 ? Number(length) : 0.4;
     var osc = ctx.createOscillator();
@@ -114,7 +119,7 @@ function jsDoc(source, view) {
   }
   var log = { log: print, info: print, warn: print, error: print };
 
-  window.__beat = { note: note, freq: freq, circle: circle, rect: rect, clear: clear, text: text, after: after, print: print, console: log };
+  window.__beat = { noteCount: 0, note: note, freq: freq, circle: circle, rect: rect, clear: clear, text: text, after: after, print: print, console: log };
   window.addEventListener('error', function (e) {
     report(String(e.message || 'Something went wrong').replace(/^Uncaught\\s+/, ''));
   });
@@ -126,6 +131,7 @@ function jsDoc(source, view) {
 ${safe}
 })(__beat.note, __beat.freq, __beat.circle, __beat.rect, __beat.clear, __beat.text, __beat.after, __beat.print, __beat.console);
 <\/script>
-<script>parent.postMessage({ type: 'done' }, '*');<\/script>
+<script>parent.postMessage({ type: 'done', output: document.getElementById('out').textContent }, '*');<\/script>
+${checkScript || ''}
 </body></html>`;
 }
