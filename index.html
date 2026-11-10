@@ -1,63 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Beatscript: learn to code with sound and shapes</title>
-  <meta name="description" content="Free, open-source lessons that teach programming through music and art. Runs in your browser, no account needed.">
+  <title>Beatscript: învață să programezi creând</title>
+  <meta name="description" content="Platformă gratuită și open-source: învață programare prin muzică, artă, jocuri, știință, povești și matematică. HTML, CSS, JavaScript, PHP, Java și C++.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="top">
-    <a class="brand" href="./">
-      <svg class="bars" width="26" height="22" viewBox="0 0 26 22" aria-hidden="true">
-        <rect x="1"  y="9"  width="4" height="12" rx="2" fill="#3ec6e0"/>
-        <rect x="8"  y="2"  width="4" height="19" rx="2" fill="#ffd23f"/>
-        <rect x="15" y="6"  width="4" height="15" rx="2" fill="#3ec6e0"/>
-        <rect x="22" y="12" width="4" height="9"  rx="2" fill="#ffd23f"/>
-      </svg>
-      Beatscript
-    </a>
-    <p class="tag">Learn to code by making sound and shapes.</p>
-    <a class="src" href="https://github.com/beatscript-lab/beatscript">Source code</a>
-  </header>
-
-  <div class="shell">
-    <nav class="rail" aria-label="Lessons">
-      <h2 id="trackName">Lessons</h2>
-      <ol id="lessonList"></ol>
-    </nav>
-
-    <section class="work">
-      <article class="lesson">
-        <h1 id="lTitle">Loading…</h1>
-        <div id="lIntro"></div>
-        <p class="task" id="lTask"></p>
-      </article>
-
-      <p id="notice" class="notice" hidden>This code came from a shared link. Read it before you run it.</p>
-
-      <label for="code" class="sr">Your code</label>
-      <textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
-      <p class="keys">Run with Ctrl+Enter. Tab inserts spaces; press Esc, then Tab, to leave the editor.</p>
-
-      <div class="bar">
-        <button id="run" class="primary" type="button">Run</button>
-        <button id="reset" type="button">Start over</button>
-        <button id="share" type="button">Copy share link</button>
-        <button id="hint" type="button">Show hint</button>
-      </div>
-      <p id="status" role="status"></p>
-      <p id="hintText" class="hinttext" hidden></p>
-    </section>
-
-    <section class="stage" aria-label="Result">
-      <div id="stageHost"></div>
-      <p class="stagenote">Your code runs in an isolated frame. Nothing is uploaded or tracked.</p>
-    </section>
-  </div>
-
-  <noscript><p class="notice">Beatscript needs JavaScript to run lessons.</p></noscript>
+  <div id="app"></div>
+  <noscript><p style="padding:2rem;font:18px system-ui">Beatscript needs JavaScript to run lessons.</p></noscript>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

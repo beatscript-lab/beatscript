@@ -1,46 +1,54 @@
 # Beatscript
 
-Learn to code by making music and art, free, in your browser.
+Learn to code by creating, free, in your browser.
 
-Beatscript is an open-source learning platform for teenagers and adults.
-Write a few lines of code and instantly hear a melody or see a drawing.
-No account, no install, no tracking.
+Beatscript is an open-source learning platform for children, teenagers and adults.
+Pick something you want to make (music, art, games, science, stories, maths), then
+write the code that makes it. The same project can be written in several programming
+languages, so learners move from the simplest one to the next without starting over.
 
-Live demo: https://beatscript.labupgrade.ai
+Live site: https://beatscript.labupgrade.ai
 
-## Why
+## What it does
 
-Most coding tutorials start with abstract exercises. Beatscript teaches
-programming through sound and visuals, and is built to run on low-end phones
-and old laptops, so it is usable in schools with little equipment.
-
-## Features
-
-- Live code editor with instant sound and drawing
-- Guided track "Music with code" (5 lessons so far)
-- Share your creation with a link (the code lives in the link itself)
-- Lessons are plain JSON files, easy for teachers to add
-- Your code runs in a sandboxed frame, isolated from the page
-- Progress and edits stay in your browser; nothing is sent to a server
+- **Topics, not just languages.** Six topics so far; adding one is a few lines of data.
+- **Six languages.** HTML, CSS and JavaScript run in the browser. PHP, Java and C++
+  run on a separate, isolated server (see `runner/`).
+- **Same project, many languages.** A lesson can offer several versions of the same program.
+- **Friendly for children.** Large controls, short plain-language text, stars for progress.
+- **Three interface languages.** Romanian, English and Russian.
+- **Private.** No account, no tracking, no external fonts or scripts. Progress and edits
+  stay in the browser (localStorage). Shared projects live inside the link itself.
+- **Safe by design.** Browser code runs in a sandboxed frame with no access to the page;
+  server code runs in a disposable sandbox with time, memory and rate limits.
 
 ## Run locally
 
-The site is static files. Serve the folder with any web server:
+The site is plain static files, with no build step. Serve the folder with any web server:
 
     python -m http.server 8080
 
-then open http://localhost:8080 . (Opening index.html directly will not
-work, because lessons are loaded with fetch.)
+then open http://localhost:8080 . Opening `index.html` directly will not work
+(the browser blocks ES modules from `file://`).
+
+PHP, Java and C++ need the runner (see `runner/README.md`). Without it the site still
+works and shows that those languages are not available yet.
 
 ## Project structure
 
-    index.html          page
-    css/style.css       styles
-    js/app.js           lessons, editor, sharing
-    js/runner.js        sandboxed runner (sound and drawing commands)
-    lessons/            lesson files (index.json lists them in order)
+    index.html               single page, hash routes (#/, #/d/<topic>, #/p/<project>)
+    css/style.css            styles
+    js/app.js                router and page shell
+    js/content.js            topics, languages and all projects (the lessons)
+    js/views-*.js            home, topic and workspace views
+    js/runner.js             builds the sandboxed documents for HTML, CSS and JavaScript
+    js/remote.js             client for the PHP/Java/C++ runner
+    js/i18n.js, js/locales/  interface text in ro, en, ru
+    js/store.js              progress and saved code (localStorage)
+    js/config.js             address of the runner
+    runner/                  isolated code runner (Piston + small gateway) for server languages
 
-## Commands available in lessons
+## Commands available in browser JavaScript lessons
 
     note(pitch, when, length)   play a note, e.g. note('C4', 0.5)
     freq(name)                  frequency of a note name
@@ -49,13 +57,14 @@ work, because lessons are loaded with fetch.)
     text(words, x, y, color, size)
     clear(color)                fill the stage
     after(seconds, function)    run something later
+    console.log(...)            print text in "text" projects
 
 ## Roadmap
 
-- More tracks: drawing with code, audio-visual games
-- Interface in Romanian and Russian
-- Lesson tools for teachers
-- Accessibility audit
+- Syntax highlighting and error line numbers in the editor
+- More topics and projects, and a teacher mode (class links, no accounts)
+- Self-hosted fonts and a Romanian/Russian accessibility review
+- Run learner JavaScript in a Web Worker so an endless loop cannot freeze the tab
 
 ## Contributing
 

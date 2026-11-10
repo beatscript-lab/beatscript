@@ -1,28 +1,50 @@
 # Contributing to Beatscript
 
-Thank you for helping! The easiest way to contribute is a new lesson or a translation.
+The easiest way to help is a new project (lesson) or a translation.
 
-## Add a lesson
+## Add a project
 
-1. Create `lessons/<track>-NN-short-name.json`:
+Open `js/content.js` and add an object to `PROJECTS`:
 
-       {
-         "title": "Short, friendly title",
-         "intro": ["First paragraph.", "Second paragraph with `code` in backticks."],
-         "task": "What the learner should try.",
-         "code": "starter code here",
-         "hint": "A nudge, not the full answer."
-       }
+    {
+      id: 'math-example',             // unique, lowercase, dashes
+      domain: 'math',                 // music | art | games | science | stories | math
+      levels: ['kids', 'teens'],      // who it suits: kids (8-12), teens (13-17), adults (18+)
+      title:   L('Română', 'English', 'Русский'),
+      summary: L('...', '...', '...'),
+      intro:   L('...', '...', '...'),
+      task:    L('...', '...', '...'),
+      hint:    L('...', '...', '...'),
+      variants: {
+        js:   { view: 'text', code: String.raw`console.log("hi");` },
+        java: { view: 'text', code: String.raw`public class Main { ... }` },
+      },
+    }
 
-2. Add its file name (without `.json`) to `lessons/index.json`, in the order learners should see it.
-3. Run the site locally (see README) and test the lesson from start to finish, with sound.
+Rules:
+
+- Every text needs all three languages (ro, en, ru).
+- `view` is `canvas` (drawing and sound), `text` (printed output) or `page` (HTML/CSS result).
+  A CSS variant also needs `scaffold`, the HTML the CSS styles.
+- Java code must use `public class Main`.
+- Code for PHP, Java and C++ must not contain ă â î ș ț inside strings (server output may break them).
+- Use `String.raw` for code so `\n` stays as written.
+- Test the project in every language you add, with sound on.
+
+## Add a topic
+
+Add an object to `DOMAINS` (icon names are in `js/dom.js`).
+
+## Translate the interface
+
+Copy `js/locales/en.js`, translate the values, and register the language in `js/i18n.js`.
 
 ## Guidelines
 
-- Write for beginners. Short sentences, plain words, one idea per lesson.
-- Every lesson must end with something the learner can see or hear.
-- Keep the code you write simple and readable; there is no build step on purpose.
-- Do not add trackers, ads or external scripts.
+- Write for beginners. Short sentences, plain words, one idea per project.
+- Every project should end with something the learner can see, hear or read.
+- No trackers, ads or external scripts or fonts.
+- There is no build step on purpose; keep it that way.
 
 ## Reporting problems
 

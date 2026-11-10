@@ -1,0 +1,41 @@
+# Beatscript code runner: Piston (sandbox) + a small public gateway.
+# Only the gateway gets a public domain (for example run.labupgrade.ai -> port 8080).
+# Piston has NO published ports and is reachable only from the gateway.
+#
+# IMPORTANT: Piston needs "privileged: true". Run this on a separate, disposable
+# server if you can, not on the machine that holds your other projects or data.
+
+services:
+  piston:
+    image: ghcr.io/engineer-man/piston
+    privileged: true
+    restart: unless-stopped
+    tmpfs:
+      - /piston/jobs
+    volumes:
+      - piston_packages:/piston/packages
+    environment:
+      PISTON_DISABLE_NETWORKING: "true"
+      PISTON_RUN_TIMEOUT: "3000"
+      PISTON_COMPILE_TIMEOUT: "10000"
+      PISTON_OUTPUT_MAX_SIZE: "65536"
+      PISTON_MAX_PROCESS_COUNT: "64"
+      PISTON_MAX_OPEN_FILES: "256"
+      PISTON_MAX_FILE_SIZE: "1000000"
+
+  gateway:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - piston
+    environment:
+      PISTON_URL: "http://piston:2000"
+      ALLOWED_ORIGINS: "https://beatscript.labupgrade.ai"
+      TRUST_PROXY: "1"
+      RATE_PER_MIN: "20"
+      MAX_PARALLEL: "3"
+    expose:
+      - "8080"
+
+volumes:
+  piston_packages:
