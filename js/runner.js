@@ -1,9 +1,26 @@
 // Builds the HTML document that runs a learner's code inside a sandboxed iframe.
 // The iframe has no access to the parent page, cookies or storage (no allow-same-origin).
+//
+// The learner's code is placed in its own inline <script> (wrapped in a function)
+// instead of being evaluated with eval/new Function, so it also works on servers
+// whose Content-Security-Policy forbids 'unsafe-eval'.
 
 export function runnerDoc(code) {
-  // Embed the code as a JSON string; escape "<" so it can never close the script tag.
-  const safeCode = JSON.stringify(String(code)).replace(/</g, '\\u003c');
+  const source = String(code);
+  const hasCode = source.trim().length > 0;
+
+  // Keep the learner's code from closing the script tag or opening an HTML comment.
+  const safeSource = source
+    .replace(/<\/(script)/gi, '<\\/$1')
+    .replace(/<!--/g, '<\\!--');
+
+  const userScript = hasCode
+    ? `<script>
+(function (note, freq, circle, rect, clear, text, after) {
+${safeSource}
+})(__beat.note, __beat.freq, __beat.circle, __beat.rect, __beat.clear, __beat.text, __beat.after);
+<\/script>`
+    : '';
 
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8">
@@ -18,14 +35,13 @@ export function runnerDoc(code) {
 <div id="tip" hidden>Click here to turn on sound</div>
 <script>
 (function () {
-  const code = ${safeCode};
   const canvas = document.getElementById('c');
   const g = canvas.getContext('2d');
   const tip = document.getElementById('tip');
   const audio = new (window.AudioContext || window.webkitAudioContext)();
 
-  function report(type, message) {
-    parent.postMessage({ type: type, message: message }, '*');
+  function report(message) {
+    parent.postMessage({ type: 'error', message: message }, '*');
   }
 
   if (audio.state !== 'running') {
@@ -88,30 +104,23 @@ export function runnerDoc(code) {
 
   function after(seconds, fn) {
     setTimeout(function () {
-      try { fn(); } catch (e) { report('error', e.message); }
+      try { fn(); } catch (e) { report(e.message); }
     }, (Number(seconds) || 0) * 1000);
   }
 
-  window.addEventListener('error', function (e) { report('error', e.message); });
+  window.__beat = { note: note, freq: freq, circle: circle, rect: rect, clear: clear, text: text, after: after };
+
+  window.addEventListener('error', function (e) {
+    report(String(e.message || 'Something went wrong').replace(/^Uncaught\\s+/, ''));
+  });
 
   clear();
-  if (!code.trim()) {
-    g.fillStyle = '#a9a5d1';
-    g.font = '20px system-ui, sans-serif';
-    g.textAlign = 'center';
-    g.fillText('Press Run to see and hear your code', 250, 205);
-    return;
-  }
-
-  try {
-    new Function('note', 'freq', 'circle', 'rect', 'clear', 'text', 'after', code)(
-      note, freq, circle, rect, clear, text, after
-    );
-    report('ok', '');
-  } catch (e) {
-    report('error', e.message);
-  }
+  ${hasCode ? '' : `g.fillStyle = '#a9a5d1';
+  g.font = '20px system-ui, sans-serif';
+  g.textAlign = 'center';
+  g.fillText('Press Run to see and hear your code', 250, 205);`}
 })();
 <\/script>
+${userScript}
 </body></html>`;
 }
