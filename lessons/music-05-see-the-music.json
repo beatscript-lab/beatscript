@@ -1,0 +1,10 @@
+{
+  "title": "Music you can see",
+  "intro": [
+    "Now combine sound and shapes. `after(seconds, function)` runs something later, so a shape can appear exactly when its note plays.",
+    "Each note below draws a circle. Higher notes sit higher on the stage."
+  ],
+  "task": "Make your own tune that draws a picture. Change colors, sizes, positions or notes. Then press Copy share link and send it to a friend.",
+  "code": "clear('#0b0a1a');\n\nconst scale = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'];\nconst colors = ['tomato', 'orange', 'gold', 'lightgreen', 'turquoise', 'dodgerblue', 'orchid', 'hotpink'];\n\nfor (let i = 0; i < scale.length; i++) {\n  note(scale[i], i * 0.3);\n  after(i * 0.3, () => {\n    circle(50 + i * 57, 340 - i * 38, 22, colors[i]);\n  });\n}",
+  "hint": "Try a bigger circle for longer notes, or use `rect(x, y, width, height, color)` instead of a circle."
+}

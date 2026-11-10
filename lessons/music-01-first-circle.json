@@ -1,0 +1,10 @@
+{
+  "title": "Draw a circle",
+  "intro": [
+    "Code is a list of instructions. The computer follows them one by one, from top to bottom.",
+    "`circle(x, y, size, color)` draws a circle. `x` is the distance from the left edge and `y` from the top. The stage is 500 wide and 400 tall."
+  ],
+  "task": "Change the numbers and the color, then press Run. Try 'hotpink' or '#3ec6e0'.",
+  "code": "circle(250, 200, 60, 'tomato');",
+  "hint": "A bigger `x` moves the circle right, a bigger `y` moves it down. Add a second circle on a new line."
+}

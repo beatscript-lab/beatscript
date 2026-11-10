@@ -1,0 +1,10 @@
+{
+  "title": "Repeat with loops",
+  "intro": [
+    "Typing the same thing again and again is boring. A loop repeats instructions for you.",
+    "`for (let i = 0; i < 8; i++)` runs the lines between the braces 8 times, while `i` counts 0, 1, 2, 3 and so on. Here `scale[i]` picks the i-th note from the list."
+  ],
+  "task": "Play the scale, then make it faster or slower by changing 0.3.",
+  "code": "const scale = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'];\n\nfor (let i = 0; i < scale.length; i++) {\n  note(scale[i], i * 0.3);\n}",
+  "hint": "Try `i * 0.15` for a faster scale. Add 'D5' and 'E5' to the list and listen to what changes."
+}
