@@ -44,3 +44,39 @@ export function starsFor(project) {
   if (multi ? editedLangs >= 2 : mostRuns >= 3) stars = 3;
   return stars;
 }
+
+// ----- backup of everything Beatscript keeps in this browser (progress, saved code, language) -----
+export function exportAll() {
+  const data = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(P)) data[key] = localStorage.getItem(key);
+    }
+  } catch { /* storage may be blocked */ }
+  return { app: 'beatscript', format: 1, exportedAt: new Date().toISOString(), data };
+}
+
+// Returns the number of entries restored, or -1 if the file is not a Beatscript backup.
+export function importAll(obj) {
+  if (!obj || obj.app !== 'beatscript' || obj.format !== 1 || typeof obj.data !== 'object' || obj.data === null) return -1;
+  const entries = Object.entries(obj.data);
+  if (entries.length > 500) return -1;
+  let n = 0;
+  try {
+    for (const [key, value] of entries) {
+      if (!key.startsWith(P) || typeof value !== 'string' || value.length > 200000) continue;
+      localStorage.setItem(key, value);
+      n += 1;
+    }
+  } catch { return -1; }
+  return n;
+}
+
+export function resetAll() {
+  try {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(P)) keys.push(k); }
+    keys.forEach((k) => localStorage.removeItem(k));
+  } catch { /* ignore */ }
+}

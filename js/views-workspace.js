@@ -5,6 +5,7 @@ import { getCode, setCode, recordRun, starsFor } from './store.js';
 import { buildDoc } from './runner.js';
 import { runRemote, server, onServerChange } from './remote.js';
 import { toB64, fromB64 } from './util.js';
+import { config } from './config.js';
 import { notFoundView } from './views-domain.js';
 
 export function workspaceView(projectId, query) {
@@ -64,8 +65,9 @@ export function workspaceView(projectId, query) {
   function emptyResult() {
     resultBody.replaceChildren(h('p', { class: 'result__empty' }, t('ws.resultEmpty')));
   }
+  const unavailable = () => isServer() && !server.languages.includes(lang);
   function updateNote() {
-    noteEl.textContent = isServer() ? t('ws.serverNote') : t('ws.browserNote');
+    noteEl.textContent = unavailable() ? t('ws.soonLang') : isServer() ? t('ws.serverNote') : t('ws.browserNote');
   }
   function renderTabs() {
     tabsEl.replaceChildren(...langs.map((key) => {
@@ -147,7 +149,7 @@ export function workspaceView(projectId, query) {
     try {
       if (!isServer()) ok = await runBrowser(v, code);
       else if (!server.languages.includes(lang)) {
-        resultBody.replaceChildren(h('p', { class: 'result__msg is-bad' }, t('ws.serverDown')));
+        resultBody.replaceChildren(h('p', { class: 'result__msg is-bad' }, config.runnerUrl ? t('ws.serverDown') : t('ws.soonLang')));
       } else {
         resultBody.replaceChildren(h('p', { class: 'result__msg' }, t('ws.running')));
         ok = showServerResult(await runRemote(lang, code));
@@ -173,7 +175,7 @@ export function workspaceView(projectId, query) {
     }
   }
   window.addEventListener('message', onMessage);
-  const offServer = onServerChange(() => { renderTabs(); });
+  const offServer = onServerChange(() => { renderTabs(); updateNote(); });
 
   /* ---------- editor behaviour ---------- */
   let tabTrap = true;

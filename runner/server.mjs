@@ -91,16 +91,18 @@ export function createGateway(options = {}) {
   }
 
   async function health() {
-    if (Date.now() - healthCache.at < 30000 && healthCache.value) return healthCache.value;
+    if (Date.now() - healthCache.at < 10000 && healthCache.value) return healthCache.value;
     let languages = [];
+    let pistonUp = false;
     try {
       const r = await fetch(pistonUrl + '/api/v2/runtimes', { signal: AbortSignal.timeout(3000) });
       const list = await r.json();
+      pistonUp = true;
       languages = Object.entries(LANGS)
         .filter(([, def]) => list.some((x) => x.language === def.language || (x.aliases || []).includes(def.language)))
         .map(([key]) => key);
     } catch { languages = []; }
-    healthCache = { at: Date.now(), value: { ok: languages.length > 0, languages } };
+    healthCache = { at: Date.now(), value: { ok: languages.length > 0, pistonUp, languages } };
     return healthCache.value;
   }
 

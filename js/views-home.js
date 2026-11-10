@@ -2,6 +2,8 @@ import { h, icon } from './dom.js';
 import { t, pick } from './i18n.js';
 import { DOMAINS, LANGUAGES, LANGUAGE_ORDER, LEVELS } from './content.js';
 import { getPref, setPref } from './store.js';
+import { server } from './remote.js';
+import { config } from './config.js';
 import { COURSES } from './courses/index.js';
 import { lessonDone } from './learn-store.js';
 import { nextStep } from './views-learn.js';
@@ -33,7 +35,7 @@ export function createView() {
   const langCards = LANGUAGE_ORDER.map((key) => h('div', { class: 'lang-card' },
     h('span', { class: 'lang-card__name' }, LANGUAGES[key].name),
     h('span', { class: 'lang-card__desc' }, t('lang.desc.' + key)),
-    h('span', { class: 'lang-card__where' }, t('where.' + LANGUAGES[key].where))));
+    h('span', { class: 'lang-card__where' }, LANGUAGES[key].where === 'server' && (!config.runnerUrl || (server.checked && !server.languages.includes(key))) ? t('common.soon') : t('where.' + LANGUAGES[key].where))));
 
   const el = h('div', { class: 'stack-lg' },
     h('section', { class: 'hero' },

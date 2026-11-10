@@ -9,6 +9,20 @@ languages, so learners move from the simplest one to the next without starting o
 
 Live site: https://beatscript.labupgrade.ai
 
+## Status: beta
+
+Beatscript is in public beta. HTML, CSS and JavaScript (level 1 of each, 15 lessons) and the free-creation
+projects work fully in the browser. PHP, Java and C++ show as "coming soon" until the code runner
+(`runner/`) is deployed; the site makes no request to it while `runnerUrl` in `js/config.js` is empty.
+
+## How this was made
+
+The code and lesson texts of this beta were written with the help of an AI assistant (Claude), guided by the
+author, and are checked by an automated browser test suite (every exercise is run: the starting code must
+fail and the solution must pass, in Romanian, English and Russian). The texts, especially the Russian ones,
+need review by native speakers. This note is also shown on the site's About page. If you apply for funding,
+read the funder's policy on AI-assisted work first and state this openly.
+
 ## What it does
 
 - **A guided course for complete beginners.** Each level has 5 lessons. Every lesson is
@@ -38,7 +52,7 @@ The site is plain static files, with no build step. Serve the folder with any we
 then open http://localhost:8080 . Opening `index.html` directly will not work
 (the browser blocks ES modules from `file://`).
 
-PHP, Java and C++ need the runner (see `runner/README.md`). Without it the site still
+PHP, Java and C++ need the runner (see `runner/README.md`); the page `#/status` checks that it works. Without it the site still
 works and shows that those languages are not available yet.
 
 ## Project structure

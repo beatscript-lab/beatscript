@@ -14,6 +14,25 @@ Runs PHP, Java and C++ for the website. HTML, CSS and JavaScript do not need it.
   limited output, and the allowed website origin only (CORS).
   `GET /health` tells the website which languages work.
 
+## If it shares a server with your other projects
+
+A separate server is safest, but if you have none, this setup is a reasonable compromise:
+
+1. **Back up first.** Take a snapshot of the server (your host's panel) and a backup of your databases.
+   If anything ever goes wrong, you can go back.
+2. **Keep the limits in `docker-compose.yml`.** They cap the runner at 2 GB of memory, 2 CPUs, a small RAM
+   area for running programs, and rotating logs. A busy or abusive visitor can slow the runner down,
+   but not the rest of your server. Lower them with `RUNNER_MEM` and `RUNNER_CPUS` if your server is small.
+3. **Do not connect it to your other containers.** Leave Coolify's "predefined network" option off for this
+   resource, and never mount the Docker socket into it (the compose file does not).
+4. **Keep the server updated** (`apt update && apt upgrade`, and reboot when the kernel changes).
+5. **Watch it.** If the server gets slow, `docker stats` shows which container is busy. You can stop the
+   runner at any time; the website keeps working and just shows "coming soon" for PHP, Java and C++.
+6. Leave about 3 GB of free disk for the installed languages.
+
+What this does **not** remove: a rare break-out from Piston's sandbox would reach the host. If the server holds
+customer data, payments or anything you cannot afford to lose, use a separate server instead.
+
 ## Security: read this first
 
 Piston needs `privileged: true`. Anyone who finds a way out of its sandbox could reach the
@@ -50,6 +69,33 @@ Host requirement: Linux with cgroup v2. Check with `stat -fc %T /sys/fs/cgroup/`
     MAX_PARALLEL     programs running at once, default 3
     TRUST_PROXY      1 when behind Coolify/Traefik (uses the address the proxy added), 0 otherwise
 
+## Check that it works
+
+Open `https://beatscript.labupgrade.ai/#/status` and press **Check everything**. The page checks, in order:
+
+1. the runner answers (DNS, HTTPS, CORS and the site's security policy are fine),
+2. Piston is running behind it,
+3. PHP, Java and C++ are installed,
+4. a small test program really runs in each language.
+
+Where it stops, it tells you what to look at. When all four pass, the PHP, Java and C++ tabs on the
+website switch from "coming soon" to "on server" by themselves.
+
+## Troubleshooting
+
+- *"The site cannot reach the runner"*: check the DNS record `run`, that the `gateway` service is running
+  in Coolify, and that `https://run.<your domain>/health` opens in a browser. If it opens there but not from
+  the site, the site's Content-Security-Policy may not allow connections to that address (`connect-src`),
+  or `ALLOWED_ORIGINS` does not match the site's address exactly.
+- *"Cannot find Piston"*: look at the `piston` service log. Piston needs a host with cgroup v2.
+- *"Missing: ..."*: run `node install-runtimes.mjs` in the gateway container. Each language can take
+  30 to 90 seconds to install; Java is the slowest. Then press the check again (the health answer is cached for 10 seconds).
+- *A program times out*: the limits are 3 s to run and 10 s to compile. The first Java run is the slowest.
+
+If your runner lives on another address, change `runnerUrl` in `js/config.js`.
+
 ## Local test without Docker
 
 `server.mjs` has no dependencies: `PISTON_URL=http://localhost:2000 node server.mjs`.
+
+The settings used in `docker-compose.yml` (`PISTON_DISABLE_NETWORKING`, `PISTON_RUN_TIMEOUT`, `PISTON_COMPILE_TIMEOUT`) are documented in Piston's configuration page; the other `PISTON_*` limits there are optional extra safety.
