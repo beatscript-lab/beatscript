@@ -1,4 +1,4 @@
-import { L, chk, read, tryIt, quiz, choice, fill } from './kit.js';
+import { L, HERE, chk, read, tryIt, quiz, choice, fill } from './kit.js';
 
 const out = (props, label, fail) => chk({ kind: 'output', ...props }, label, fail);
 const code = (matches, label, fail, extra = {}) => chk({ kind: 'code', matches, ...extra }, label, fail);
@@ -30,7 +30,7 @@ export const jsCourse = {
           practice: [
             {
               task: L('Afișează textul `Hello` folosind `console.log`.', 'Print the text `Hello` using `console.log`.'),
-              code: '// Scrie comanda ta mai jos\n', solution: 'console.log("Hello");',
+              code: HERE.cmd, solution: 'console.log("Hello");',
               checks: [
                 code('console\\.log\\s*\\(', L('Folosești `console.log`', 'You use `console.log`'), L('Scrie comanda `console.log("...")`.', 'Write the command `console.log("...")`.')),
                 out({ matches: '^hello$', flags: 'i' }, L('Pe ecran apare `Hello`', 'The screen shows `Hello`'), L('Textul din ghilimele trebuie să fie exact `Hello`.', 'The text in the quotes must be exactly `Hello`.')),
@@ -39,7 +39,7 @@ export const jsCourse = {
             },
             {
               task: L('Afișează două rânduri: `Ana` și `Ion`, fiecare cu propriul `console.log`.', 'Print two lines: `Ana` and `Ion`, each with its own `console.log`.'),
-              code: '// Scrie comenzile tale mai jos\n', solution: 'console.log("Ana");\nconsole.log("Ion");',
+              code: HERE.cmds, solution: 'console.log("Ana");\nconsole.log("Ion");',
               checks: [
                 out({ minLines: 2 }, L('Apar două rânduri', 'Two lines appear'), L('Ai nevoie de două comenzi `console.log`, una sub alta.', 'You need two `console.log` commands, one below the other.')),
                 out({ matches: 'Ana' }, L('Un rând spune `Ana`', 'One line says `Ana`'), L('Unul dintre texte trebuie să fie `Ana`.', 'One of the texts must be `Ana`.')),
@@ -72,7 +72,7 @@ export const jsCourse = {
           practice: [
             {
               task: L('Creează o variabilă `nume` cu numele tău și afișeaz-o cu `console.log`.', 'Create a variable `nume` with your name and print it with `console.log`.'),
-              code: '// Scrie codul tău mai jos\n', solution: 'let nume = "Ana";\nconsole.log(nume);',
+              code: HERE.code, solution: 'let nume = "Ana";\nconsole.log(nume);',
               checks: [
                 code('(let|const|var)\\s+nume\\s*=', L('Ai creat variabila `nume`', 'You created the variable `nume`'), L('Începe cu `let nume = "..." ;`.', 'Start with `let nume = "...";`.')),
                 code('console\\.log\\s*\\(\\s*nume\\s*\\)', L('Afișezi variabila `nume`', 'You print the variable `nume`'), L('Scrie `console.log(nume);` fără ghilimele în jurul lui `nume`.', 'Write `console.log(nume);` without quotes around `nume`.')),
@@ -82,7 +82,7 @@ export const jsCourse = {
             },
             {
               task: L('Creează variabila `varsta` cu un număr și afișeaz-o.', 'Create the variable `varsta` with a number and print it.'),
-              code: '// Scrie codul tău mai jos\n', solution: 'let varsta = 11;\nconsole.log(varsta);',
+              code: HERE.code, solution: 'let varsta = 11;\nconsole.log(varsta);',
               checks: [
                 code('(let|const|var)\\s+varsta\\s*=', L('Ai creat variabila `varsta`', 'You created the variable `varsta`'), L('Începe cu `let varsta = ...;`.', 'Start with `let varsta = ...;`.')),
                 code('console\\.log\\s*\\(\\s*varsta\\s*\\)', L('Afișezi variabila `varsta`', 'You print the variable `varsta`'), L('Scrie `console.log(varsta);`.', 'Write `console.log(varsta);`.')),
@@ -114,7 +114,7 @@ export const jsCourse = {
           practice: [
             {
               task: L('Afișează rezultatul lui 6 × 7, calculat de calculator (folosește `*`).', 'Print the result of 6 × 7, calculated by the computer (use `*`).'),
-              code: '// Scrie codul tău mai jos\n', solution: 'console.log(6 * 7);',
+              code: HERE.code, solution: 'console.log(6 * 7);',
               checks: [
                 code('6\\s*\\*\\s*7', L('Calculatorul face înmulțirea cu `*`', 'The computer does the multiplication with `*`'), L('Scrie `6 * 7` în comandă, nu rezultatul gata făcut.', 'Write `6 * 7` in the command, not the finished result.')),
                 out({ equals: '42' }, L('Pe ecran apare 42', 'The screen shows 42'), L('Rezultatul trebuie să fie 42.', 'The result must be 42.')),
@@ -123,7 +123,7 @@ export const jsCourse = {
             },
             {
               task: L('Afișează rezultatul lui 9 × 9, calculat cu `*`.', 'Print the result of 9 × 9, calculated with `*`.'),
-              code: '// Scrie codul tău mai jos\n', solution: 'console.log(9 * 9);',
+              code: HERE.code, solution: 'console.log(9 * 9);',
               checks: [
                 code('9\\s*\\*\\s*9', L('Calculatorul face înmulțirea cu `*`', 'The computer does the multiplication with `*`'), L('Scrie `9 * 9` în comandă.', 'Write `9 * 9` in the command.')),
                 out({ equals: '81' }, L('Pe ecran apare 81', 'The screen shows 81'), L('Rezultatul trebuie să fie 81.', 'The result must be 81.')),
@@ -153,7 +153,7 @@ export const jsCourse = {
           practice: [
             {
               task: L('Afișează `Salut, Ana!` folosind variabila `nume` și semnul `+`.', 'Print `Salut, Ana!` using the variable `nume` and the `+` sign.'),
-              code: 'let nume = "Ana";\n// Scrie comanda ta mai jos\n', solution: 'let nume = "Ana";\nconsole.log("Salut, " + nume + "!");',
+              code: L('let nume = "Ana";\n// Scrie comanda ta mai jos\n', 'let nume = "Ana";\n// Write your command below\n'), solution: 'let nume = "Ana";\nconsole.log("Salut, " + nume + "!");',
               checks: [
                 code('console\\.log\\s*\\([^)]*\\+[^)]*nume|console\\.log\\s*\\([^)]*nume[^)]*\\+', L('Lipești textul cu variabila `nume` folosind `+`', 'You join the text with the variable `nume` using `+`'), L('Scrie `"Salut, " + nume + "!"` în interiorul lui `console.log`.', 'Write `"Salut, " + nume + "!"` inside `console.log`.')),
                 out({ equals: 'Salut, Ana!' }, L('Pe ecran apare `Salut, Ana!`', 'The screen shows `Salut, Ana!`'), L('Verifică virgula, spațiul și semnul de exclamare.', 'Check the comma, the space and the exclamation mark.')),
@@ -162,7 +162,7 @@ export const jsCourse = {
             },
             {
               task: L('Afișează `Imi place pisica` folosind variabila `animal` și semnul `+`.', 'Print `Imi place pisica` using the variable `animal` and the `+` sign.'),
-              code: 'let animal = "pisica";\n// Scrie comanda ta mai jos\n', solution: 'let animal = "pisica";\nconsole.log("Imi place " + animal);',
+              code: L('let animal = "pisica";\n// Scrie comanda ta mai jos\n', 'let animal = "pisica";\n// Write your command below\n'), solution: 'let animal = "pisica";\nconsole.log("Imi place " + animal);',
               checks: [
                 code('console\\.log\\s*\\([^)]*\\+[^)]*animal|console\\.log\\s*\\([^)]*animal[^)]*\\+', L('Lipești textul cu variabila `animal` folosind `+`', 'You join the text with the variable `animal` using `+`'), L('Scrie `"Imi place " + animal` în interiorul lui `console.log`.', 'Write `"Imi place " + animal` inside `console.log`.')),
                 out({ matches: '^[IÎ]mi place pisica$' }, L('Pe ecran apare `Imi place pisica`', 'The screen shows `Imi place pisica`'), L('Verifică spațiul după `place`.', 'Check the space after `place`.')),
@@ -194,7 +194,7 @@ export const jsCourse = {
           practice: [
             {
               task: L('Scrie un `if` care afișează `Cald` dacă `temperatura` este mai mare de 25, altfel `Frig`.', 'Write an `if` that prints `Cald` if `temperatura` is greater than 25, otherwise `Frig`.'),
-              code: 'let temperatura = 30;\n\n// Scrie if-ul tău mai jos\n', solution: 'let temperatura = 30;\n\nif (temperatura > 25) {\n  console.log("Cald");\n} else {\n  console.log("Frig");\n}',
+              code: L('let temperatura = 30;\n\n// Scrie if-ul tău mai jos\n', 'let temperatura = 30;\n\n// Write your if below\n'), solution: 'let temperatura = 30;\n\nif (temperatura > 25) {\n  console.log("Cald");\n} else {\n  console.log("Frig");\n}',
               checks: [
                 code('if\\s*\\(', L('Folosești `if`', 'You use `if`'), L('Începe cu `if (condiție) { ... }`.', 'Start with `if (condition) { ... }`.')),
                 code('else', L('Folosești `else`', 'You use `else`'), L('Adaugă `else { ... }` pentru cazul „Frig”.', 'Add `else { ... }` for the “Frig” case.')),
@@ -204,7 +204,7 @@ export const jsCourse = {
             },
             {
               task: L('Afișează `Adult` dacă `varsta` este cel puțin 18, altfel `Copil`.', 'Print `Adult` if `varsta` is at least 18, otherwise `Copil`.'),
-              code: 'let varsta = 12;\n\n// Scrie if-ul tău mai jos\n', solution: 'let varsta = 12;\n\nif (varsta >= 18) {\n  console.log("Adult");\n} else {\n  console.log("Copil");\n}',
+              code: L('let varsta = 12;\n\n// Scrie if-ul tău mai jos\n', 'let varsta = 12;\n\n// Write your if below\n'), solution: 'let varsta = 12;\n\nif (varsta >= 18) {\n  console.log("Adult");\n} else {\n  console.log("Copil");\n}',
               checks: [
                 code('if\\s*\\(', L('Folosești `if`', 'You use `if`'), L('Începe cu `if (condiție) { ... }`.', 'Start with `if (condition) { ... }`.')),
                 code('else', L('Folosești `else`', 'You use `else`'), L('Adaugă `else { ... }` pentru cazul „Copil”.', 'Add `else { ... }` for the “Copil” case.')),

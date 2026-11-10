@@ -48,6 +48,7 @@ export default {
   'lp.step': 'Step {n} of {m}',
   'lp.continue': 'Continue',
   'lp.back': 'Back',
+  'lp.runNeed': 'Press Run to see what the code does.',
   'lp.example': 'Example',
   'lp.tryTitle': 'Try it yourself',
   'lp.tryNeed': 'Change something in the code, then press Run.',

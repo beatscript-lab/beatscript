@@ -242,7 +242,7 @@ export function lessonView(lessonId) {
     const demo = step.demo;
     const box = createCodeBox({
       lang: course.lang, view, scaffold: pick(demo.scaffold), code: pick(demo.code),
-      readOnly, autoRun: true, runLabel: t('ws.run'), onRun,
+      readOnly, autoRun: false, runLabel: t('ws.run'), onRun,
     });
     current = { destroy: () => box.destroy() };
     return box;
@@ -254,8 +254,9 @@ export function lessonView(lessonId) {
         h('h2', {}, pick(step.title)),
         ...step.body.map((p) => P(p)),
         h('h3', {}, t('lp.example')),
-        demoBox(step, true).el);
-      setNav({ canContinue: true });
+        h('p', { class: 'fine' }, t('lp.runNeed')),
+        demoBox(step, true, (r) => { if (r.ok) enableContinue(); }).el);
+      setNav({ canContinue: false });
     } else if (step.type === 'try') {
       const done = h('p', { class: 'feedback is-good', hidden: true }, '✓ ', t('lp.tryDone'));
       body.replaceChildren(

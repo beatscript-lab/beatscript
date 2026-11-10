@@ -11,3 +11,12 @@ export const quiz = (q, options, correct, why) => ({ type: 'quiz', q, options, c
 // Test questions (each lesson has two variants: a first one and a different one for the retry).
 export const choice = (q, options, correct, why, code) => ({ type: 'choice', q, options, correct, why, code });
 export const fill = (q, answers, why, code) => ({ type: 'fill', q, answers, why, code });
+
+// Starter comments for empty editors, in every language of the interface.
+export const HERE = {
+  html: L('<!-- Scrie codul tău mai jos -->\n', '<!-- Write your code below -->\n'),
+  css: L('/* Scrie regula ta mai jos */\n', '/* Write your rule below */\n'),
+  cmd: L('// Scrie comanda ta mai jos\n', '// Write your command below\n'),
+  cmds: L('// Scrie comenzile tale mai jos\n', '// Write your commands below\n'),
+  code: L('// Scrie codul tău mai jos\n', '// Write your code below\n'),
+};

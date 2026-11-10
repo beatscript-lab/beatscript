@@ -23,7 +23,8 @@ Rules that keep the course beginner-friendly:
   and a `fail` message that tells the learner what to do, not just that they are wrong.
 - The starting code must not already pass; the `solution` must pass. The browser test in the
   repository checks both for every exercise, in every language you write text for.
-- Text is `L('română', 'English')`; Russian falls back to English until it is translated.
+- Text is `L('română', 'English')`. The Russian version is looked up by the English text in `js/courses/ru.js`; the browser test fails if any lesson text has no Russian version.
+- Examples never run by themselves: the learner presses Run first.
 
 ## Add a free-creation project
 

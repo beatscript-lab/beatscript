@@ -23,7 +23,7 @@ Live site: https://beatscript.labupgrade.ai
   run on a separate, isolated server (see `runner/`).
 - **Same project, many languages.** A lesson can offer several versions of the same program.
 - **Friendly for children.** Large controls, short plain-language text, stars for progress.
-- **Three interface languages.** Romanian, English and Russian.
+- **Three languages everywhere.** Interface, lessons, exercises and tests are in Romanian, English and Russian.
 - **Private.** No account, no tracking, no external fonts or scripts. Progress and edits
   stay in the browser (localStorage). Shared projects live inside the link itself.
 - **Safe by design.** Browser code runs in a sandboxed frame with no access to the page;
@@ -74,7 +74,6 @@ works and shows that those languages are not available yet.
 ## Roadmap
 
 - Courses for PHP, Java and C++ (they need the runner), more levels for HTML, CSS and JavaScript
-- Russian translation of the lesson texts (the interface is already in Russian)
 - Syntax highlighting and error line numbers in the editor
 - More topics and projects, and a teacher mode (class links, no accounts)
 - Self-hosted fonts and a Romanian/Russian accessibility review

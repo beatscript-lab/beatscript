@@ -2,6 +2,7 @@ import { L } from './kit.js';
 import { htmlCourse } from './html.js';
 import { cssCourse } from './css.js';
 import { jsCourse } from './js.js';
+import { RU } from './ru.js';
 
 // Courses that are not written yet show as "in preparation".
 const soon = (id, lang, title) => ({ id, lang, title: L(title, title), blurb: L('', ''), levels: [] });
@@ -30,3 +31,19 @@ export function findLevel(levelId) {
   }
   return null;
 }
+
+// Add the Russian text to every { ro, en } pair, looked up by its English text (see ru.js).
+// Anything without a translation falls back to English, and is listed here so a test can catch it.
+export const MISSING_RU = [];
+(function addRussian(node) {
+  if (Array.isArray(node)) { node.forEach(addRussian); return; }
+  if (!node || typeof node !== 'object') return;
+  if (typeof node.ro === 'string' && typeof node.en === 'string') {
+    if (node.ru === undefined) {
+      if (RU[node.en] !== undefined) node.ru = RU[node.en];
+      else MISSING_RU.push(node.en);
+    }
+    return;
+  }
+  Object.values(node).forEach(addRussian);
+})(COURSES);

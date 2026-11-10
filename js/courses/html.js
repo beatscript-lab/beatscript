@@ -1,4 +1,4 @@
-import { L, chk, read, tryIt, quiz, choice, fill } from './kit.js';
+import { L, HERE, chk, read, tryIt, quiz, choice, fill } from './kit.js';
 
 export const htmlCourse = {
   id: 'html',
@@ -34,20 +34,20 @@ export const htmlCourse = {
           practice: [
             {
               task: L('Scrie un titlu cu textul `Despre mine`.', 'Write a heading with the text `About me`.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<h1>Despre mine</h1>', '<h1>About me</h1>'),
+              code: HERE.html, solution: L('<h1>Despre mine</h1>', '<h1>About me</h1>'),
               checks: [
                 chk({ kind: 'dom', selector: 'h1', min: 1 }, L('Pagina are un titlu `<h1>`', 'The page has an `<h1>` heading'), L('Nu văd niciun `<h1>`. Scrie `<h1>`, apoi textul, apoi `</h1>`.', 'I cannot see an `<h1>`. Write `<h1>`, then the text, then `</h1>`.')),
-                chk({ kind: 'dom', selector: 'h1', text: 'despre mine|about me' }, L('Titlul spune „Despre mine”', 'The heading says “About me”'), L('Titlul trebuie să conțină exact textul cerut.', 'The heading must contain the exact text asked for.')),
+                chk({ kind: 'dom', selector: 'h1', text: 'despre mine|about me|обо мне' }, L('Titlul spune „Despre mine”', 'The heading says “About me”'), L('Titlul trebuie să conțină exact textul cerut.', 'The heading must contain the exact text asked for.')),
               ],
               hints: [L('Un titlu începe cu `<h1>` și se termină cu `</h1>`.', 'A heading starts with `<h1>` and ends with `</h1>`.'), L('Pune textul între ele, fără spații în plus.', 'Put the text between them.')],
             },
             {
               task: L('Scrie două titluri: unul cu textul `Muzică` și unul cu textul `Desen`.', 'Write two headings: one with the text `Music` and one with the text `Drawing`.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<h1>Muzică</h1>\n<h1>Desen</h1>', '<h1>Music</h1>\n<h1>Drawing</h1>'),
+              code: HERE.html, solution: L('<h1>Muzică</h1>\n<h1>Desen</h1>', '<h1>Music</h1>\n<h1>Drawing</h1>'),
               checks: [
                 chk({ kind: 'dom', selector: 'h1', min: 2 }, L('Pagina are două titluri `<h1>`', 'The page has two `<h1>` headings'), L('Ai nevoie de două titluri, fiecare cu `<h1>` și `</h1>`.', 'You need two headings, each with `<h1>` and `</h1>`.')),
-                chk({ kind: 'dom', selector: 'h1', text: 'muzic|music' }, L('Un titlu spune „Muzică”', 'One heading says “Music”'), L('Un titlu trebuie să conțină cuvântul cerut pentru muzică.', 'One heading must contain the word for music.')),
-                chk({ kind: 'dom', selector: 'h1', text: 'desen|drawing' }, L('Un titlu spune „Desen”', 'One heading says “Drawing”'), L('Celălalt titlu trebuie să conțină cuvântul cerut pentru desen.', 'The other heading must contain the word for drawing.')),
+                chk({ kind: 'dom', selector: 'h1', text: 'muzic|music|музык' }, L('Un titlu spune „Muzică”', 'One heading says “Music”'), L('Un titlu trebuie să conțină cuvântul cerut pentru muzică.', 'One heading must contain the word for music.')),
+                chk({ kind: 'dom', selector: 'h1', text: 'desen|drawing|рисун' }, L('Un titlu spune „Desen”', 'One heading says “Drawing”'), L('Celălalt titlu trebuie să conțină cuvântul cerut pentru desen.', 'The other heading must contain the word for drawing.')),
               ],
               hints: [L('Scrie un `<h1>...</h1>` pe un rând, apoi încă unul pe rândul următor.', 'Write one `<h1>...</h1>` on a line, then another on the next line.'), L('Exemplu: `<h1>Muzică</h1>` și apoi `<h1>Desen</h1>`.', 'Example: `<h1>Music</h1>` and then `<h1>Drawing</h1>`.')],
             },
@@ -133,7 +133,7 @@ export const htmlCourse = {
             },
             {
               task: L('Fă o listă cu 4 culori.', 'Make a list of 4 colors.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<ul>\n  <li>Roșu</li>\n  <li>Galben</li>\n  <li>Verde</li>\n  <li>Albastru</li>\n</ul>', '<ul>\n  <li>Red</li>\n  <li>Yellow</li>\n  <li>Green</li>\n  <li>Blue</li>\n</ul>'),
+              code: HERE.html, solution: L('<ul>\n  <li>Roșu</li>\n  <li>Galben</li>\n  <li>Verde</li>\n  <li>Albastru</li>\n</ul>', '<ul>\n  <li>Red</li>\n  <li>Yellow</li>\n  <li>Green</li>\n  <li>Blue</li>\n</ul>'),
               checks: [
                 chk({ kind: 'dom', selector: 'ul', min: 1 }, L('Pagina are o listă `<ul>`', 'The page has a `<ul>` list'), L('Începe cu `<ul>` și termină cu `</ul>`.', 'Start with `<ul>` and end with `</ul>`.')),
                 chk({ kind: 'dom', selector: 'ul li', min: 4 }, L('Lista are cel puțin 4 elemente `<li>`', 'The list has at least 4 `<li>` items'), L('Ai nevoie de 4 rânduri `<li>...</li>`.', 'You need 4 lines `<li>...</li>`.')),
@@ -167,18 +167,18 @@ export const htmlCourse = {
           practice: [
             {
               task: L('Fă un link cu textul `Pagina mea` care duce la `https://example.org`.', 'Make a link with the text `My page` that goes to `https://example.org`.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<a href="https://example.org">Pagina mea</a>', '<a href="https://example.org">My page</a>'),
+              code: HERE.html, solution: L('<a href="https://example.org">Pagina mea</a>', '<a href="https://example.org">My page</a>'),
               checks: [
-                chk({ kind: 'dom', selector: 'a', min: 1, text: 'pagina mea|my page' }, L('Link-ul are textul cerut', 'The link has the requested text'), L('Textul dintre `<a ...>` și `</a>` trebuie să fie cel cerut.', 'The text between `<a ...>` and `</a>` must be the one asked for.')),
+                chk({ kind: 'dom', selector: 'a', min: 1, text: 'pagina mea|my page|моя страница' }, L('Link-ul are textul cerut', 'The link has the requested text'), L('Textul dintre `<a ...>` și `</a>` trebuie să fie cel cerut.', 'The text between `<a ...>` and `</a>` must be the one asked for.')),
                 chk({ kind: 'dom', selector: 'a', attr: { name: 'href', matches: '^https://example\\.org' } }, L('Link-ul duce la adresa cerută', 'The link goes to the requested address'), L('Scrie adresa în `href="..."`, între ghilimele.', 'Write the address in `href="..."`, between quotes.')),
               ],
               hints: [L('Forma este `<a href="adresa">text</a>`.', 'The form is `<a href="address">text</a>`.'), L('Adresa e `https://example.org`; textul e cel cerut.', 'The address is `https://example.org`; the text is the one asked for.')],
             },
             {
               task: L('Fă un link cu textul `Hartă` care duce la `https://www.openstreetmap.org`.', 'Make a link with the text `Map` that goes to `https://www.openstreetmap.org`.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<a href="https://www.openstreetmap.org">Hartă</a>', '<a href="https://www.openstreetmap.org">Map</a>'),
+              code: HERE.html, solution: L('<a href="https://www.openstreetmap.org">Hartă</a>', '<a href="https://www.openstreetmap.org">Map</a>'),
               checks: [
-                chk({ kind: 'dom', selector: 'a', min: 1, text: 'hart|map' }, L('Link-ul are textul cerut', 'The link has the requested text'), L('Textul dintre `<a ...>` și `</a>` trebuie să fie cel cerut.', 'The text between `<a ...>` and `</a>` must be the one asked for.')),
+                chk({ kind: 'dom', selector: 'a', min: 1, text: 'hart|map|карт' }, L('Link-ul are textul cerut', 'The link has the requested text'), L('Textul dintre `<a ...>` și `</a>` trebuie să fie cel cerut.', 'The text between `<a ...>` and `</a>` must be the one asked for.')),
                 chk({ kind: 'dom', selector: 'a', attr: { name: 'href', matches: 'openstreetmap\\.org' } }, L('Link-ul duce la adresa cerută', 'The link goes to the requested address'), L('Scrie adresa în `href="..."`, între ghilimele.', 'Write the address in `href="..."`, between quotes.')),
               ],
               hints: [L('Forma este `<a href="adresa">text</a>`.', 'The form is `<a href="address">text</a>`.'), L('Nu uita ghilimelele în jurul adresei.', 'Do not forget the quotes around the address.')],
@@ -210,7 +210,7 @@ export const htmlCourse = {
           practice: [
             {
               task: L('Fă o mică pagină despre tine: un titlu `<h1>`, un paragraf `<p>` și o listă `<ul>` cu cel puțin 2 elemente.', 'Make a small page about yourself: an `<h1>` heading, a `<p>` paragraph and a `<ul>` list with at least 2 items.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<h1>Eu sunt Ana</h1>\n<p>Îmi place muzica.</p>\n<ul>\n  <li>Pian</li>\n  <li>Desen</li>\n</ul>', '<h1>I am Ana</h1>\n<p>I like music.</p>\n<ul>\n  <li>Piano</li>\n  <li>Drawing</li>\n</ul>'),
+              code: HERE.html, solution: L('<h1>Eu sunt Ana</h1>\n<p>Îmi place muzica.</p>\n<ul>\n  <li>Pian</li>\n  <li>Desen</li>\n</ul>', '<h1>I am Ana</h1>\n<p>I like music.</p>\n<ul>\n  <li>Piano</li>\n  <li>Drawing</li>\n</ul>'),
               checks: [
                 chk({ kind: 'dom', selector: 'h1', min: 1 }, L('Are un titlu `<h1>`', 'It has an `<h1>` heading'), L('Adaugă `<h1>...</h1>`.', 'Add `<h1>...</h1>`.')),
                 chk({ kind: 'dom', selector: 'p', min: 1 }, L('Are un paragraf `<p>`', 'It has a `<p>` paragraph'), L('Adaugă `<p>...</p>`.', 'Add `<p>...</p>`.')),
@@ -220,7 +220,7 @@ export const htmlCourse = {
             },
             {
               task: L('Fă o pagină despre un animal: un titlu `<h1>`, un paragraf `<p>` cu un cuvânt îngroșat `<strong>` și un link `<a>`.', 'Make a page about an animal: an `<h1>` heading, a `<p>` paragraph with one word in `<strong>`, and an `<a>` link.'),
-              code: '<!-- Scrie codul tău mai jos -->\n', solution: L('<h1>Pisica</h1>\n<p>Pisica este <strong>drăguță</strong>.</p>\n<a href="https://example.org">Mai multe</a>', '<h1>The cat</h1>\n<p>The cat is <strong>cute</strong>.</p>\n<a href="https://example.org">More</a>'),
+              code: HERE.html, solution: L('<h1>Pisica</h1>\n<p>Pisica este <strong>drăguță</strong>.</p>\n<a href="https://example.org">Mai multe</a>', '<h1>The cat</h1>\n<p>The cat is <strong>cute</strong>.</p>\n<a href="https://example.org">More</a>'),
               checks: [
                 chk({ kind: 'dom', selector: 'h1', min: 1 }, L('Are un titlu `<h1>`', 'It has an `<h1>` heading'), L('Adaugă `<h1>...</h1>`.', 'Add `<h1>...</h1>`.')),
                 chk({ kind: 'dom', selector: 'p strong', min: 1 }, L('Are un cuvânt îngroșat într-un paragraf', 'It has a bold word inside a paragraph'), L('Pune `<strong>...</strong>` în interiorul unui `<p>`.', 'Put `<strong>...</strong>` inside a `<p>`.')),

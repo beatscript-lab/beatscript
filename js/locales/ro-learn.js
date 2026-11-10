@@ -48,6 +48,7 @@ export default {
   'lp.step': 'Pasul {n} din {m}',
   'lp.continue': 'Continuă',
   'lp.back': 'Înapoi',
+  'lp.runNeed': 'Apasă Rulează ca să vezi ce face codul.',
   'lp.example': 'Exemplu',
   'lp.tryTitle': 'Încearcă singur',
   'lp.tryNeed': 'Schimbă ceva în cod, apoi apasă Rulează.',

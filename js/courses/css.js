@@ -1,4 +1,4 @@
-import { L, chk, read, tryIt, quiz, choice, fill } from './kit.js';
+import { L, HERE, chk, read, tryIt, quiz, choice, fill } from './kit.js';
 
 const st = (selector, prop, equals, label, fail) => chk({ kind: 'style', selector, prop, equals }, label, fail);
 
@@ -205,7 +205,7 @@ export const cssCourse = {
           practice: [
             {
               task: L('Scrie regula `.rosu` care face textul roșu (`red`). Al doilea paragraf trebuie să rămână cum e.', 'Write the `.rosu` rule that makes the text red (`red`). The second paragraph must stay as it is.'),
-              scaffold: '<p class="rosu">One</p>\n<p>Two</p>', code: '/* Scrie regula ta mai jos */\n', solution: '.rosu {\n  color: red;\n}',
+              scaffold: '<p class="rosu">One</p>\n<p>Two</p>', code: HERE.css, solution: '.rosu {\n  color: red;\n}',
               checks: [
                 st('.rosu', 'color', 'rgb(255, 0, 0)', L('Paragraful cu clasa rosu este roșu', 'The paragraph with the class rosu is red'), L('Scrie `.rosu { color: red; }`, cu punct înainte de nume.', 'Write `.rosu { color: red; }`, with a dot before the name.')),
                 chk({ kind: 'style', selector: 'p:not(.rosu)', prop: 'color', notEquals: 'rgb(255, 0, 0)' }, L('Celălalt paragraf nu s-a schimbat', 'The other paragraph did not change'), L('Folosește `.rosu`, nu `p`: așa se schimbă doar paragraful cu clasa.', 'Use `.rosu`, not `p`: that way only the paragraph with the class changes.')),
@@ -214,7 +214,7 @@ export const cssCourse = {
             },
             {
               task: L('Scrie regula `.titlu` care face textul de `36px`.', 'Write the `.titlu` rule that makes the text `36px`.'),
-              scaffold: '<p>One</p>\n<p class="titlu">Two</p>', code: '/* Scrie regula ta mai jos */\n', solution: '.titlu {\n  font-size: 36px;\n}',
+              scaffold: '<p>One</p>\n<p class="titlu">Two</p>', code: HERE.css, solution: '.titlu {\n  font-size: 36px;\n}',
               checks: [
                 st('.titlu', 'font-size', '36px', L('Paragraful cu clasa titlu are 36px', 'The paragraph with the class titlu is 36px'), L('Scrie `.titlu { font-size: 36px; }`, cu punct înainte de nume.', 'Write `.titlu { font-size: 36px; }`, with a dot before the name.')),
                 chk({ kind: 'style', selector: 'p:not(.titlu)', prop: 'font-size', notEquals: '36px' }, L('Celălalt paragraf nu s-a schimbat', 'The other paragraph did not change'), L('Folosește `.titlu`, nu `p`.', 'Use `.titlu`, not `p`.')),
